@@ -36,12 +36,11 @@
 # Note that all settings are set with ?=, this means you can override them
 # from the commandline with "make HARDWARE_MOTHERBOARD=71" for example
 
-# This defined the board you are compiling for (see boards.h for the options)
-HARDWARE_MOTHERBOARD ?= 11
+# This defined the board you are compiling for (see Configuration.h for the options)
+HARDWARE_MOTHERBOARD ?= 62
 
 # Arduino source install directory, and version number
-# On most linuxes this will be /usr/share/arduino
-ARDUINO_INSTALL_DIR  ?= /usr/share/arduino
+ARDUINO_INSTALL_DIR  ?= ../../arduino-105
 ARDUINO_VERSION      ?= 105
 
 # You can optionally set a path to the avr-gcc tools. Requires a trailing slash. (ex: /usr/local/avr-gcc/bin)
@@ -49,12 +48,10 @@ AVR_TOOLS_PATH ?=
 
 #Programmer configuration
 UPLOAD_RATE        ?= 115200
-AVRDUDE_PROGRAMMER ?= wiring
-# on most linuxes this will be /dev/ttyACM0 or /dev/ttyACM1 
-UPLOAD_PORT        ?= /dev/arduino
+AVRDUDE_PROGRAMMER ?= arduino
+UPLOAD_PORT        ?= /dev/ttyUSB0
 
-#Directory used to build files in, contains all the build files, from object files to the final hex file
-#on linux it is best to put an absolute path like /home/username/tmp .
+#Directory used to build files in, contains all the build files, from object files to the final hex file.
 BUILD_DIR          ?= applet
 
 # This defines whether Liquid_TWI2 support will be built
@@ -99,6 +96,12 @@ else ifeq  ($(HARDWARE_MOTHERBOARD),34)
 HARDWARE_VARIANT ?= arduino
 MCU              ?= atmega2560
 
+#Duemilanove w/ ATMega328P pin assignment
+else ifeq  ($(HARDWARE_MOTHERBOARD),4)
+HARDWARE_VARIANT ?= arduino
+HARDWARE_SUB_VARIANT ?= standard
+MCU              ?= atmega328p
+
 #Gen6
 else ifeq  ($(HARDWARE_MOTHERBOARD),5)
 HARDWARE_VARIANT ?= Gen6
@@ -113,7 +116,7 @@ HARDWARE_VARIANT ?= Sanguino
 MCU              ?= atmega644p
 else ifeq  ($(HARDWARE_MOTHERBOARD),62)
 HARDWARE_VARIANT ?= Sanguino
-MCU              ?= atmega644p
+MCU              ?= atmega1284p
 else ifeq  ($(HARDWARE_MOTHERBOARD),63)
 HARDWARE_VARIANT ?= Sanguino
 MCU              ?= atmega644p
@@ -151,11 +154,6 @@ MCU              ?= at90usb1286
 
 #Gen3+
 else ifeq  ($(HARDWARE_MOTHERBOARD),9)
-HARDWARE_VARIANT ?= Sanguino
-MCU              ?= atmega644p
-
-#Gen3 Monolithic Electronics
-else ifeq  ($(HARDWARE_MOTHERBOARD),22)
 HARDWARE_VARIANT ?= Sanguino
 MCU              ?= atmega644p
 
@@ -202,7 +200,7 @@ ifeq ($(HARDWARE_VARIANT), arduino)
 HARDWARE_DIR = $(ARDUINO_INSTALL_DIR)/hardware
 else
 ifeq ($(shell [ $(ARDUINO_VERSION) -ge 100 ] && echo true), true)
-HARDWARE_DIR = ../ArduinoAddons/Arduino_1.x.x
+HARDWARE_DIR = ../ArduinoAddons/Arduino_1.0.x
 else
 HARDWARE_DIR = ../ArduinoAddons/Arduino_0.xx
 endif
@@ -218,7 +216,7 @@ TARGET = $(notdir $(CURDIR))
 VPATH = .
 VPATH += $(BUILD_DIR)
 VPATH += $(HARDWARE_SRC)
-ifeq ($(HARDWARE_VARIANT), $(filter $(HARDWARE_VARIANT),arduino Teensy))
+ifeq ($(HARDWARE_VARIANT), arduino)
 VPATH += $(ARDUINO_INSTALL_DIR)/libraries/LiquidCrystal
 VPATH += $(ARDUINO_INSTALL_DIR)/libraries/SPI
 ifeq ($(LIQUID_TWI2), 1)
@@ -348,15 +346,15 @@ LDFLAGS = -lm
 
 # Programming support using avrdude. Settings and variables.
 AVRDUDE_PORT = $(UPLOAD_PORT)
-AVRDUDE_WRITE_FLASH = -Uflash:w:$(BUILD_DIR)/$(TARGET).hex:i
+AVRDUDE_WRITE_FLASH = -U flash:w:$(BUILD_DIR)/$(TARGET).hex:i
 ifeq ($(shell uname -s), Linux)
 AVRDUDE_CONF = $(ARDUINO_INSTALL_DIR)/hardware/tools/avrdude.conf
 else
 AVRDUDE_CONF = $(ARDUINO_INSTALL_DIR)/hardware/tools/avr/etc/avrdude.conf
 endif
-AVRDUDE_FLAGS = -q -q -D -C$(AVRDUDE_CONF) \
-	-p$(MCU) -P$(AVRDUDE_PORT) -c$(AVRDUDE_PROGRAMMER) \
-	-b$(UPLOAD_RATE)
+AVRDUDE_FLAGS = -D -V \
+	-p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) \
+	-b $(UPLOAD_RATE)
 
 # Define all object files.
 OBJ = ${patsubst %.c, $(BUILD_DIR)/%.o, ${SRC}}

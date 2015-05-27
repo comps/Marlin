@@ -49,7 +49,7 @@
 #endif
 
 #ifdef NUM_SERVOS
-  #define SERVO0_PIN          -1
+  #define SERVO0_PIN          27
 
   #if NUM_SERVOS > 1
     #define SERVO1_PIN        -1
