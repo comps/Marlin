@@ -27,6 +27,10 @@
 #include "../gcode.h"
 #include "../../MarlinCore.h"
 
+#ifndef strcmp_P
+#define strcmp_P strcmp
+#endif
+
 /**
  * M16: Expected Printer Check
  */
