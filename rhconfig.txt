@@ -1,0 +1,49 @@
+=== Using platformio ==
+
+$ pip install --user -U platformio
+
+(Add ~/.local/bin to your PATH)
+
+$ cd /path/to/marlin/repo
+
+$ pio run
+
+(Copy .pioenvs/megaatmega1280/firmware.hex to lab laptop)
+
+$ avrdude -D -p m1281 -c arduino -b 57600 -P /dev/ttyUSB0 -U firmware.hex
+
+
+== Using Arduino IDE ==
+
+/etc/arduino/boards.txt:
+
+################################################
+
+mega1281.name=Minitronics
+
+mega1281.upload.protocol=arduino
+mega1281.upload.maximum_size=126976
+mega1281.upload.speed=57600
+mega1281.upload.tool=avrdude
+
+mega1281.bootloader.tool=avrdude
+mega1281.bootloader.low_fuses=0xFF
+mega1281.bootloader.high_fuses=0xDA
+mega1281.bootloader.extended_fuses=0xF5
+mega1281.bootloader.path=atmega
+mega1281.bootloader.file=ATmegaBOOT_168_atmega1281.hex
+mega1281.bootloader.unlock_bits=0x3F
+mega1281.bootloader.lock_bits=0x0F
+
+mega1281.build.mcu=atmega1281
+mega1281.build.board=AVR_MEGA1281
+mega1281.build.f_cpu=16000000L
+mega1281.build.core=arduino
+mega1281.build.variant=minitronics
+
+Then go to
+  http://reprap.org/wiki/File:MinitronicsArduinoAddon.zip
+and download the latest version, extract
+  ATmegaBOOT_168_atmega1281.hex
+into
+  /usr/share/arduino/hardware/arduino/avr/bootloaders/

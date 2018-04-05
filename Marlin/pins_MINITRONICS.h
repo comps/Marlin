@@ -31,7 +31,7 @@
  *
  */
 
-#ifndef __AVR_ATmega1281__
+#if !defined(__AVR_ATmega1281__) && !defined(__AVR_ATmega1280__)
   #error "Oops!  Make sure you have 'Minitronics' selected from the 'Tools -> Boards' menu."
 #endif
 
