@@ -39,3 +39,36 @@
 
 #define SANGUINOLOLU_V_1_2
 #include "pins_SANGUINOLOLU_11.h"
+
+// v1.3a below
+
+/*
+ * BIG F-ING WARNING - PINOUTS YOU FIND ON WEB ARE WRONG IN MARLIN
+ *
+ * Images like
+ *   http://i.imgur.com/ayagBbM.png
+ * show the digital pins following the analog pin numbering, but
+ * Marlin's digital pins follow the physical pins.
+ *
+ * Ie. Marlin's numbering is
+ *   A0 -> digital 31
+ *   A1 -> digital 30
+ *   ...
+ *   A7 -> digital 24
+ *
+ * Thus, the M43 output is correct.
+ */
+
+// disable unused features to avoid conflicts
+#undef CASE_LIGHT_PIN
+#undef SDSS
+
+// unused on pin header
+#ifndef FAN_PIN
+  #define FAN_PIN 4
+#endif
+
+// TMC2130 SPI
+#define X_CS_PIN 29
+#define Y_CS_PIN 30
+#define E0_CS_PIN 31
