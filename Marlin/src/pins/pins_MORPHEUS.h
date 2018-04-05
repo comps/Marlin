@@ -38,9 +38,14 @@
 //
 // Limit Switches
 //
-#define X_MIN_PIN          PB14
-#define Y_MIN_PIN          PB13
+#define X_MIN_PIN          PB12
+#define Y_MIN_PIN          PB12
 #define Z_MIN_PIN          PB12
+
+#define X_CS_PIN PB13
+#define Y_CS_PIN PB14
+#define E0_CS_PIN PB11
+
 
 //
 // Z Probe (when not Z_MIN_PIN)
