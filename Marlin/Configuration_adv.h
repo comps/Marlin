@@ -389,7 +389,7 @@
 // When first starting the main fan, run it at full speed for the
 // given number of milliseconds.  This gets the fan spinning reliably
 // before setting a PWM value. (Does not work with software PWM for fan on Sanguinololu)
-//#define FAN_KICKSTART_TIME 100
+#define FAN_KICKSTART_TIME 100
 
 // Some coolers may require a non-zero "off" state.
 //#define FAN_OFF_PWM  1
@@ -634,7 +634,7 @@
 
 //#define HOMING_BACKOFF_POST_MM { 2, 2, 2 }  // (mm) Backoff from endstops after homing
 
-//#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
+#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
 //#define HOME_Y_BEFORE_X                     // If G28 contains XY home Y before X
 //#define CODEPENDENT_XY_HOMING               // If X/Y can't home without homing Y/X first
 
@@ -814,7 +814,7 @@
  * Set DISABLE_INACTIVE_? 'true' to shut down axis steppers after an idle period.
  * The Deactive Time can be overridden with M18 and M84. Set to 0 for No Timeout.
  */
-#define DEFAULT_STEPPER_DEACTIVE_TIME 120
+#define DEFAULT_STEPPER_DEACTIVE_TIME 86400
 #define DISABLE_INACTIVE_X true
 #define DISABLE_INACTIVE_Y true
 #define DISABLE_INACTIVE_Z true  // Set 'false' if the nozzle could fall onto your printed part!
@@ -950,7 +950,7 @@
  * vibration and surface artifacts. The algorithm adapts to provide the best possible step smoothing at the
  * lowest stepping frequencies.
  */
-//#define ADAPTIVE_STEP_SMOOTHING
+#define ADAPTIVE_STEP_SMOOTHING
 
 /**
  * Custom Microstepping
@@ -1087,7 +1087,7 @@
 #endif // HAS_LCD_MENU
 
 // Scroll a longer status message into view
-//#define STATUS_MESSAGE_SCROLLING
+#define STATUS_MESSAGE_SCROLLING
 
 // On the Info Screen, display XY with one decimal place when possible
 //#define LCD_DECIMAL_SMALL_XY
@@ -1218,7 +1218,7 @@
   //#define LONG_FILENAME_HOST_SUPPORT
 
   // Enable this option to scroll long filenames in the SD card menu
-  //#define SCROLL_LONG_FILENAMES
+  #define SCROLL_LONG_FILENAMES
 
   // Leave the heaters on after Stop Print (not recommended!)
   //#define SD_ABORT_NO_COOLDOWN
@@ -1615,10 +1615,10 @@
  *
  * See https://marlinfw.org/docs/features/lin_advance.html for full instructions.
  */
-//#define LIN_ADVANCE
+#define LIN_ADVANCE
 #if ENABLED(LIN_ADVANCE)
   //#define EXTRA_LIN_ADVANCE_K // Enable for second linear advance constants
-  #define LIN_ADVANCE_K 0.22    // Unit: mm compression per 1mm/s extruder speed
+  #define LIN_ADVANCE_K 0       // Unit: mm compression per 1mm/s extruder speed
   //#define LA_DEBUG            // If enabled, this will generate debug information output over USB.
   //#define EXPERIMENTAL_SCURVE // Enable this option to permit S-Curve Acceleration
 #endif
@@ -2052,7 +2052,7 @@
  * Requires NOZZLE_PARK_FEATURE.
  * This feature is required for the default FILAMENT_RUNOUT_SCRIPT.
  */
-//#define ADVANCED_PAUSE_FEATURE
+#define ADVANCED_PAUSE_FEATURE
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
   #define PAUSE_PARK_RETRACT_FEEDRATE         60  // (mm/s) Initial retract feedrate.
   #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
@@ -2439,7 +2439,7 @@
    * Define you own with
    * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
    */
-  #define CHOPPER_TIMING CHOPPER_DEFAULT_12V
+  #define CHOPPER_TIMING CHOPPER_DEFAULT_24V
 
   /**
    * Monitor Trinamic drivers
@@ -2452,7 +2452,7 @@
    * M912 - Clear stepper driver overtemperature pre-warn condition flag.
    * M122 - Report driver parameters (Requires TMC_DEBUG)
    */
-  //#define MONITOR_DRIVER_STATUS
+  #define MONITOR_DRIVER_STATUS
 
   #if ENABLED(MONITOR_DRIVER_STATUS)
     #define CURRENT_STEP_DOWN     50  // [mA]
@@ -2541,13 +2541,13 @@
    * Beta feature!
    * Create a 50/50 square wave step pulse optimal for stepper drivers.
    */
-  //#define SQUARE_WAVE_STEPPING
+  #define SQUARE_WAVE_STEPPING
 
   /**
    * Enable M122 debugging command for TMC stepper drivers.
    * M122 S0/1 will enable continous reporting.
    */
-  //#define TMC_DEBUG
+  #define TMC_DEBUG
 
   /**
    * You can set your own advanced settings by filling in predefined functions.
@@ -3160,7 +3160,7 @@
 //#define GCODE_MOTION_MODES  // Remember the motion mode (G0 G1 G2 G3 G5 G38.X) and apply for X Y Z E F, etc.
 
 // Enable and set a (default) feedrate for all G0 moves
-//#define G0_FEEDRATE 3000 // (mm/min)
+#define G0_FEEDRATE 20000 // (mm/min)
 #ifdef G0_FEEDRATE
   //#define VARIABLE_G0_FEEDRATE // The G0 feedrate is set by F in G0 motion mode
 #endif
