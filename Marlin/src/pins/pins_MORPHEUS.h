@@ -43,16 +43,19 @@
 #define Z_MIN_PIN          PB12
 
 #define X_CS_PIN PB13
-#define Y_CS_PIN PB14
-#define E0_CS_PIN PB11
+//#define Y_CS_PIN PB14
+//#define E0_CS_PIN PB11
 
+//#define TMC_SW_MOSI       PB14
+//#define TMC_SW_MISO       PB11
+//#define TMC_SW_SCK        PB9
 
 //
 // Z Probe (when not Z_MIN_PIN)
 //
-#ifndef Z_MIN_PROBE_PIN
-  #define Z_MIN_PROBE_PIN  PB9
-#endif
+//#ifndef Z_MIN_PROBE_PIN
+//  #define Z_MIN_PROBE_PIN  PB9
+//#endif
 
 //
 // Steppers
